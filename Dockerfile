@@ -10,9 +10,8 @@ RUN apk add --no-cache \
     curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp && \
     chmod a+rx /usr/local/bin/yt-dlp
 
-# Ensure n8n binary is accessible and set correct permissions
-RUN chmod +x /usr/local/bin/n8n && \
-    mkdir -p /home/node/.n8n && \
+# Set up n8n config directory permissions
+RUN mkdir -p /home/node/.n8n && \
     chown node:node /home/node/.n8n && \
     chmod 700 /home/node/.n8n
 
@@ -20,10 +19,10 @@ RUN chmod +x /usr/local/bin/n8n && \
 ENV N8N_PORT=$PORT
 ENV N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
 
-# Expose the port (Render will override with PORT env variable, defaults to 8080)
+# Expose the port (Render defaults to 8080)
 EXPOSE $PORT
 
 USER node
 
-# Use the default n8n entrypoint
-CMD ["/usr/local/bin/n8n", "start"]
+# Rely on the base image's default entrypoint and command
+CMD ["start"]
