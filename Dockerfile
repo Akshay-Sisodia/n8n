@@ -15,14 +15,13 @@ RUN mkdir -p /home/node/.n8n && \
     chown node:node /home/node/.n8n && \
     chmod 700 /home/node/.n8n
 
-# Set environment variables for n8n and Render
-ENV N8N_PORT=$PORT
+# Set environment variable for config permissions
 ENV N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
 
-# Expose the port (Render defaults to 8080)
-EXPOSE $PORT
+# Expose n8n's default port
+EXPOSE 5678
 
 USER node
 
-# Rely on the base image's default entrypoint and command
+# Use the base image's default entrypoint and command
 CMD ["start"]
